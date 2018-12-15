@@ -1,1 +1,1 @@
-require('../lesson/sort.js')
+require('../lesson/test.js')
