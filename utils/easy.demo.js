@@ -199,6 +199,73 @@ function type(obj) {
      }
      return target
  }
+/**
+ * --------------------------------------------------
+ *  实现findIndex
+ * --------------------------------------------------
+ */
+
+ function _findIndex (array, fn, context) {
+     for (let i=0; i<array.length; i++) {
+         if(fn.call(context, array[i], i,array)) return i
+     }
+     return -1
+ }
+
+/**
+ * --------------------------------------------------
+ *  实现findLastIndex
+ * --------------------------------------------------
+ */
+
+ function _findLastIndex(array,fn,context) {
+     let length = array.length
+     for(let i = length -1; i >=0; i--) {
+         if(fn.call(context,array[i],i,array)) return i
+     }
+     return -1
+ }
+
+/**
+ * --------------------------------------------------
+ *  相等
+ * --------------------------------------------------
+ */
+
+function eq(a,b) {
+    // 判断+0 和 -0
+    if(a === b) return a!==0 || 1/a === 1/b
+
+    // NaN 判断
+    if(a!==a) return b !==b
+
+    let type = typeof a
+
+    if(type !== 'function' && type !== 'object' && typeof b != 'object') return false
+
+    
+    
+    return false
+}
+
+/**
+ * --------------------------------------------------
+ *  函数柯里化
+ * --------------------------------------------------
+ */
+
+var curry = function(fn) {
+    var length = length || fn.length
+    
+    var args = [].slice.call(arguments,1) 
+    return function() {
+        var newArgs = args.concat([].slice.call(arguments))
+        return fn.apply(this, newArgs)
+    }
+}
+
+
+
 
 
 
