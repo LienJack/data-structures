@@ -13,4 +13,5 @@
 // require('../vue/mvvm.js')
 // require('../utils/easy.demo.js')
 // require('../utils/easy.js')
-require('../utils/extend.js')
+// require('../utils/extend.js')
+require('../zepto/fn.js')
