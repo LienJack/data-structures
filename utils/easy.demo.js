@@ -254,15 +254,45 @@ function eq(a,b) {
  * --------------------------------------------------
  */
 
-var curry = function(fn) {
+var curry = function(fn, length) {
     var length = length || fn.length
-    
-    var args = [].slice.call(arguments,1) 
+    var slice = Array.prototype.slice
     return function() {
-        var newArgs = args.concat([].slice.call(arguments))
-        return fn.apply(this, newArgs)
+        if(arguments.length < length) {
+            var combined = [fn].concat(slice.call(arguments))
+            return curry(curry.apply(this, combined),length - arguments.length)
+        }
     }
 }
+
+
+console.log('script start')
+debugger
+async function async1() {
+  await async2()
+  console.log('async1 end')
+}
+async function async2() {
+  console.log('async2 end')
+}
+async1()
+
+setTimeout(function() {
+  console.log('setTimeout')
+}, 0)
+
+new Promise(resolve => {
+  console.log('Promise')
+  resolve()
+})
+  .then(function() {
+    console.log('promise1')
+  })
+  .then(function() {
+    console.log('promise2')
+  })
+
+console.log('script end')
 
 
 
