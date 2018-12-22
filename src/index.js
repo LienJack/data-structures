@@ -10,4 +10,6 @@
 // require('../test/requireDemo')
 // require('../test/requrieDemo2')
 
-require('../vue/mvvm.js')
+// require('../vue/mvvm.js')
+
+require('../test/index')
