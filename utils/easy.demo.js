@@ -265,34 +265,209 @@ var curry = function(fn, length) {
     }
 }
 
+/**
+ * --------------------------------------------------
+ *  promise yck
+ * --------------------------------------------------
+ */
 
-console.log('script start')
-debugger
-async function async1() {
-  await async2()
-  console.log('async1 end')
-}
-async function async2() {
-  console.log('async2 end')
-}
-async1()
+//  const PENDING = 'pending'
+//  const RESOLVED = 'resolved'
+//  const REJECTED = 'rejected'
 
-setTimeout(function() {
-  console.log('setTimeout')
-}, 0)
+//  function YckPromise(fn) {
+//      const that = this
+//      that.state = PENDING
+//      that.value = null
+//      that.resolvedCallbacks = []
+//      that.rejectedCallbacks = []
+//     debugger
+//      function resolve(value) {
+//         if(value instanceof YckPromise) return value.then(resolve, reject)
+//         setTimeout(()=>{
+//             if(that.state === PENDING) {
+//                 that.state = RESOLVED
+//                 that.value = value
+//                 that.resolvedCallbacks.map( cd => cd(that.value))
+//             }
+//         }, 0)
+//      }
+//      function reject(value) {
+//          setTimeout(()=> {
+//             if(that.state === PENDING) {
+//                 that.state = REJECTED
+//                 that.value = value
+//                 that.rejectedCallbacks.map( cd => cd(that.value))
+//             }
+//          })
+//      }
+//      try {
+//          fn(resolve, reject)
+//      } catch (e) {
+//          that.reject(e)
+//      }
+//  }
 
-new Promise(resolve => {
-  console.log('Promise')
-  resolve()
-})
-  .then(function() {
-    console.log('promise1')
-  })
-  .then(function() {
-    console.log('promise2')
-  })
+//  YckPromise.prototype.then = function(onFulfilled, onRejected) {
+//      const that = this
+//      onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : v => v
+//      onRejected = 
+//         typeof onRejected === 'function' 
+//             ? onRejected : r => { throw r}
+//     if (that.state === PENDING) {
+//         return (promise2 = new YckPromise((resolve,reject) => {
+//             that.resolvedCallbacks.push(()=>{
+//                 try {
+//                     const x = onFulfilled(that.value)
+//                     resolutionProcedure(promise2, x, resolve, reject)
+//                 } catch(r) {
+//                     reject(r)
+//                 }
+//             })
+//             that.rejectedCallbacks.push(()=>{
+//                 try {
+//                     const x = onRejected(that.value)
+//                     resolutionProcedure(promise2, x, resolve, reject)
+//                 } catch(r) {
+//                     reject(r)
+//                 }
 
-console.log('script end')
+//             })
+//         }))
+//     }
+//     if(that.state === RESOLVED) {
+//         return (promise2 => new YckPromise((resolve, reject) => {
+//             setTimeout(()=>{
+//                 try {
+//                     const x = onFulfilled(that.value)
+//                     resolutionProcedure(promise2, x, resolve, reject)
+//                 } catch(reason) {
+//                     reject(reason)
+//                 }
+//             })
+//         }))
+//     }
+//     if(that.state === REJECTED) {
+//         return (promise2 => new YckPromise((resolve, reject) => {
+//             setTimeout(()=>{
+//                 try {
+//                     const x = onRejected(that.value)
+//                     resolutionProcedure(promise2, x, resolve, reject)
+//                 } catch(reason) {
+//                     reject(reason)
+//                 }
+//             })
+//         }))
+//     }
+//     function resolutionProcedure(promsie2, x, resolve, reject) {
+//         if(promise2 === x) {
+//             return reject(new TypeError('Error'))
+//         }
+//         let p = new YckPromise((resolve, reject) => {
+//             resolve(1)
+//         })
+//         let p1 = p.then(value => {
+//             return p1
+//         })
+//         if (x instanceof YckPromise) {
+//             x.then(function(value) {
+//                 resolutionProcedure(promise2, value, resolve, reject)
+//             }, reject)
+//         }
+//         let called = false
+//         if (x !== null && (typeof x === 'object' || typeof x === 'function')) {
+//         try {
+//             let then = x.then
+//             if (typeof then === 'function') {
+//             then.call(
+//                 x,
+//                 y => {
+//                 if (called) return
+//                 called = true
+//                 resolutionProcedure(promise2, y, resolve, reject)
+//                 },
+//                 e => {
+//                 if (called) return
+//                 called = true
+//                 reject(e)
+//                 }
+//             )
+//             } else {
+//             resolve(x)
+//             }
+//         } catch (e) {
+//             if (called) return
+//             called = true
+//             reject(e)
+//         }
+//         } else {
+//         resolve(x)
+//         }
+//     }
+//  }
+
+ 
+/**
+ * --------------------------------------------------
+ *  promise 面条
+ * --------------------------------------------------
+ */
+const PENDING = 'PENDING'
+const FULFILLED = 'FULFILLED'
+const REJECTED = 'REJECTED'
+
+class MyPromise {
+    constructor (handle) {
+      if (!isFunction(handle)) {
+        throw new Error('MyPromise must accept a function as a parameter')
+      }
+      // 添加状态
+      this._status = PENDING
+      // 添加状态
+      this._value = undefined
+      // 添加成功回调函数队列
+      this._fulfilledQueues = []
+
+      // 添加失败回调函数队列
+        this._rejectedQueues = []
+      // 执行handle
+      try {
+        handle(this._resolve.bind(this), this._reject.bind(this)) 
+      } catch (err) {
+        this._reject(err)
+      }
+    }
+    // 添加resovle时执行的函数
+    _resolve (val) {
+      if (this._status !== PENDING) return
+      this._status = FULFILLED
+      this._value = val
+    }
+    // 添加reject时执行的函数
+    _reject (err) { 
+      if (this._status !== PENDING) return
+      this._status = REJECTED
+      this._value = err
+    }
+    then(onFulfilled, onRejected) {
+        const { _value, _status } = this
+        switch(_status) {
+            case PENDING: 
+                this._fulfilledQueues.push(onFulfilled)
+                this._rejectedQueues.push(onRejected)
+                break
+            case FULFILLED:
+                onFulfilled(_value)
+            case REJECTED:
+                onRejected(_value)
+                break
+        }
+        return new MyPromise((onFulfilledNext, onRejectedNext) => {
+            
+        })
+    }
+  }
+  
 
 
 
