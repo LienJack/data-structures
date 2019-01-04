@@ -463,7 +463,6 @@ class MyPromise {
                 break
         }
         return new MyPromise((onFulfilledNext, onRejectedNext) => {
-            
         })
     }
   }
