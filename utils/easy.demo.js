@@ -133,6 +133,27 @@ function deepCopy(obj) {
 }
 /**
  * --------------------------------------------------
+ *  深度拷贝 yck
+ * --------------------------------------------------
+ */
+
+ function deepClone(obj) {
+     function isObject(o) {
+         return (typeof o === 'object' || typeof o === 'function') && o !== null
+     }
+     if (!isObject(obj)) {
+         throw new Error('非对象')
+     }
+
+     let isArray = Array.isArray(obj)
+     let newObj = isArray ? [ ...obj ] : { ...obj }
+     Reflect.ownKeys(newObj).forEach(key => {
+         newObj[key] = isObject(obj[key]) ? deepClone(obj[key]): obj[key]
+     })
+     return newObj
+ }
+/**
+ * --------------------------------------------------
  *  类型判断
  * --------------------------------------------------
  */
@@ -466,8 +487,39 @@ class MyPromise {
         })
     }
   }
-  
 
+
+  /**
+ * --------------------------------------------------
+ *  节流
+ * --------------------------------------------------
+ */
+const throttle = (func, wait = 50) => {
+    let lastTime = 0
+    return function (...arguments) {
+        let now = +new Date()
+        if(now - lastTime > wait) {
+            lastTime = now
+            func.apply(this, arguments)
+        }
+    }
+}
+
+/**
+ * --------------------------------------------------
+ *  防抖
+ * --------------------------------------------------
+ */
+
+ const debounce = (func, wait = 50 ) => {
+     let timer = 0
+     return function(...arguments) {
+         if(timer) clearTimeout(timer)
+         timer = setTimeout(()=>{
+             func.apply(this, arguments)
+         }, wait)
+     }
+ }
 
 
 

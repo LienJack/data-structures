@@ -72,7 +72,7 @@
  * @author rowanyang
  * 
  */
-export default function iSlider(opts) {
+function iSlider(opts) {
   this.opts={
       wrap:'.wrap',
       item:'.item',
@@ -268,6 +268,7 @@ iSlider.prototype={
       },this._delayTime);
   },
   _touchstart : function (e) {
+      console.log('move start')
         var self=this;
         if(e.target.getAttribute("data-stop") === "true")return;
     if(e.touches.length !== 1){return;}//如果大于1个手指，则不处理
@@ -293,6 +294,7 @@ iSlider.prototype={
     }
   },
   _touchmove : function (e) {
+      console.log('move')
         var parent=e.target;
         if(parent.getAttribute("stop") === "true")return;
 
@@ -353,6 +355,7 @@ iSlider.prototype={
     this.touchInitPos = currentX;
   },
   _touchend : function (e) {
+      console.log('move end')
         if(e.target.getAttribute("stop") === "true")return;
     if(this.deltaX2 < -this.opts.triggerDist){
       this.next();
@@ -508,7 +511,7 @@ iSlider.prototype={
           return false;
       }
       
-//        var prevIndex = this.index===0 ? this.length-1 : this.index-1;
+       var prevIndex = this.index===0 ? this.length-1 : this.index-1;
 
       if (this._prev) {
           this.wrap.removeChild(this._prev);
@@ -566,3 +569,5 @@ iSlider.prototype={
 // }else {
 //   window.iSlider=iSlider;
 // }
+
+var scoll = new iSlider()
