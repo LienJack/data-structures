@@ -66,3 +66,6 @@ let o = new Vue ({
   }
 })
 o._data.test = 'hello world'
+
+console.log(o)
+

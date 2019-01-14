@@ -9,12 +9,13 @@
 // require('../FP/lesson3')
 // require('../test/requireDemo')
 // require('../test/requrieDemo2')
+// require('../test/proxy')
 
 // require('../vue/mvvm.js')
-// require('../utils/easy.demo.js')
+require('../utils/easy.demo.js')
 // require('../utils/easy.js')
 // require('../utils/extend.js')
 // require('../zepto/fn.js')
 
-require('../frame/isScroll.demo.js')
+// require('../frame/isScroll.demo.js')
 // require('../frame/isScroll.js')

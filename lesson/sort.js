@@ -82,7 +82,7 @@ const mergeSort = (arr) => {
 /**
  * 快速排序
  */
-// 苑一峰版
+// 阮一峰版
 // 好像归并算法
 const quickSort_yuan = (arr) => {
   if (arr.length <= 1) { return arr }

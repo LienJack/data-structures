@@ -285,10 +285,68 @@ var curry = function(fn, length) {
         }
     }
 }
+/**
+ * --------------------------------------------------
+ *  promise yck 简单版
+ * --------------------------------------------------
+ */
+const PENDING = 'pending'
+const RESOLVED = 'resolved'
+const REJECTED = 'rejected'
+
+function MyPromise(fn) {
+  const that = this
+  that.state = PENDING
+  that.value = null
+  that.resolvedCallbacks = []
+  that.rejectedCallbacks = []
+  function resolve(value) {
+    if (that.state === PENDING) {
+      that.state = RESOLVED
+      that.value = value
+      that.resolvedCallbacks.map(cb => cb(that.value))
+    }
+  }
+  
+  function reject(value) {
+    if (that.state === PENDING) {
+      that.state = REJECTED
+      that.value = value
+      that.rejectedCallbacks.map(cb => cb(that.value))
+    }
+  }
+
+  try {
+    fn(resolve, reject)
+  } catch (e) {
+    reject(e)
+  }
+}
+MyPromise.prototype.then = function(onFulfilled, onRejected) {
+    const that = this
+    onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : v => v
+    onRejected =
+      typeof onRejected === 'function'
+        ? onRejected
+        : r => {
+            throw r
+          }
+    if (that.state === PENDING) {
+      that.resolvedCallbacks.push(onFulfilled)
+      that.rejectedCallbacks.push(onRejected)
+    }
+    if (that.state === RESOLVED) {
+      onFulfilled(that.value)
+    }
+    if (that.state === REJECTED) {
+      onRejected(that.value)
+    }
+  }
+
 
 /**
  * --------------------------------------------------
- *  promise yck
+ *  promise yck 困难版
  * --------------------------------------------------
  */
 
@@ -302,7 +360,6 @@ var curry = function(fn, length) {
 //      that.value = null
 //      that.resolvedCallbacks = []
 //      that.rejectedCallbacks = []
-//     debugger
 //      function resolve(value) {
 //         if(value instanceof YckPromise) return value.then(resolve, reject)
 //         setTimeout(()=>{
@@ -521,8 +578,60 @@ const throttle = (func, wait = 50) => {
      }
  }
 
+ function setInterval(callback, interval) {
+    // debugger
+    let timer
+    const now = Date.now
+    let startTime = now()
+    let endTime = startTime
+    const loop = () => {
+        timer = window.requestAnimationFrame(loop)
+        endTime = now()
+        if (endTime - startTime >= interval) {
+            startTime = endTime = now()
+            callback(timer)
+        }
+    }
+    window.requestAnimationFrame(loop)
+    return timer
+  }
+  
+  let a = 0
+  setInterval(timer => {
+    console.log(1)
+    a++
+    if (a === 3) cancelAnimationFrame(timer)
+  }, 1000)
 
 
+/**
+ * --------------------------------------------------
+ *  lazy
+ * --------------------------------------------------
+ */
+
+ function lazy() {
+    const imgs = document.getElementsByTagName('img')
+    // 获取可视区域的高度
+    const viewHeight = window.innerHeight || document.documentElement.clientHeight
+    // num用于统计当前显示到了哪一张图片，避免每次都从第一张图片开始检查是否露出
+    let num = 0
+    function lazyload(){
+        for(let i=num; i<imgs.length; i++) {
+            // 用可视区域高度减去元素顶部距离可视区域顶部的高度
+            let distance = viewHeight - imgs[i].getBoundingClientRect().top
+            // 如果可视区域高度大于等于元素顶部距离可视区域顶部的高度，说明元素露出
+            if(distance >= 0 ){
+                // 给元素写入真实的src，展示图片
+                imgs[i].src = imgs[i].getAttribute('data-src')
+                // 前i张图片已经加载完毕，下次从第i+1张开始检查是否露出
+                num = i + 1
+            }
+        }
+    }
+    // 监听Scroll事件
+    window.addEventListener('scroll', lazyload, false);
+ }
 
 
 
