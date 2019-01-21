@@ -12,10 +12,14 @@
 // require('../test/proxy')
 
 // require('../vue/mvvm.js')
-require('../utils/easy.demo.js')
+// require('../utils/easy.demo.js')
+// require('../utils/easy2.js')
 // require('../utils/easy.js')
 // require('../utils/extend.js')
 // require('../zepto/fn.js')
 
 // require('../frame/isScroll.demo.js')
 // require('../frame/isScroll.js')
+
+require('../lesson/algorithms')
+// require('../touch/index')

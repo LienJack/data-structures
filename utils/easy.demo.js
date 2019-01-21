@@ -290,7 +290,8 @@ var curry = function(fn, length) {
  *  promise yck 简单版
  * --------------------------------------------------
  */
-const PENDING = 'pending'
+{
+    const PENDING = 'pending'
 const RESOLVED = 'resolved'
 const REJECTED = 'rejected'
 
@@ -342,6 +343,7 @@ MyPromise.prototype.then = function(onFulfilled, onRejected) {
       onRejected(that.value)
     }
   }
+}
 
 
 /**
@@ -490,7 +492,8 @@ MyPromise.prototype.then = function(onFulfilled, onRejected) {
  *  promise 面条
  * --------------------------------------------------
  */
-const PENDING = 'PENDING'
+{
+    const PENDING = 'PENDING'
 const FULFILLED = 'FULFILLED'
 const REJECTED = 'REJECTED'
 
@@ -544,6 +547,7 @@ class MyPromise {
         })
     }
   }
+}
 
 
   /**
@@ -551,13 +555,15 @@ class MyPromise {
  *  节流
  * --------------------------------------------------
  */
-const throttle = (func, wait = 50) => {
-    let lastTime = 0
-    return function (...arguments) {
-        let now = +new Date()
-        if(now - lastTime > wait) {
-            lastTime = now
-            func.apply(this, arguments)
+{
+    const throttle = (func, wait = 50) => {
+        let lastTime = 0
+        return function (...arguments) {
+            let now = +new Date()
+            if(now - lastTime > wait) {
+                lastTime = now
+                func.apply(this, arguments)
+            }
         }
     }
 }
@@ -597,11 +603,11 @@ const throttle = (func, wait = 50) => {
   }
   
   let a = 0
-  setInterval(timer => {
-    console.log(1)
-    a++
-    if (a === 3) cancelAnimationFrame(timer)
-  }, 1000)
+//   setInterval(timer => {
+//     console.log(1)
+//     a++
+//     if (a === 3) cancelAnimationFrame(timer)
+//   }, 1000)
 
 
 /**
@@ -632,6 +638,169 @@ const throttle = (func, wait = 50) => {
     // 监听Scroll事件
     window.addEventListener('scroll', lazyload, false);
  }
+
+ /**
+  * ---------------------------------------
+  *  防抖 简单
+  * ------------------------------------- 
+  */
+
+{
+    let count = 1
+    let container = document.getElementById('container')
+
+    function getUserAction(e) {
+        container.innerHTML = count++
+        console.log('fn',e)
+    }
+
+    function debounce2(func, wait) {
+        let timeout
+        return function() {
+            let ctx = this
+            let args = arguments
+            clearTimeout(timeout)
+            timeout = setTimeout(()=>{
+                func.apply(ctx, args)
+            }, wait)
+        }
+    }
+    // container.addEventListener('mousemove',debounce2(getUserAction,100))
+}
+ /**
+  * ---------------------------------------
+  *  防抖 困难
+  * ------------------------------------- 
+  */
+{
+    let count = 1
+    let container = document.getElementById('container')
+
+    function getUserAction(e) {
+        container.innerHTML = count++
+    }
+
+    function debounce2(func, wait, immediate) {
+        let timeout
+        return function() {
+            let ctx = this
+            let args = arguments
+            if(timeout) clearTimeout(timeout)
+            if(immediate) {
+                let callNow = !timeout
+                timeout = setTimeout(()=>{
+                   timeout = null 
+                }, wait) 
+                if(callNow) func.apply(ctx, args)
+            } else {
+                timeout = setTimeout(()=>{
+                    func.apply(ctx, args)
+                }, wait)
+            }
+        }
+    }
+    // container.addEventListener('mousemove',debounce2(getUserAction,100))
+}
+ /**
+  * ---------------------------------------
+  *  节流 使用时间戳
+  * ------------------------------------- 
+  */
+ {
+    let count = 1
+    let container = document.getElementById('container')
+
+    function getUserAction(e) {
+        container.innerHTML = count++
+    }
+
+    function throttle(func, wait) {
+        let ctx
+        let args
+        let previous = 0
+        return function() {
+            let now = +new Date()
+            ctx = this
+            args = arguments
+            if(now - previous > wait) {
+                func.apply(ctx, args)
+                previous = now
+            }
+        }
+    }
+
+    // container.addEventListener('mousemove',debounce2(getUserAction,100))
+ }
+  /**
+  * ---------------------------------------
+  *  节流 使用定时器
+  * ------------------------------------- 
+  */
+
+ {
+    function throttle(func, wiat) {
+        let timeout
+        let previous = 0
+        return function() {
+            let ctx = this
+            args = arguments
+            if(!timeout) {
+                timeout = setTimeout(()=>{
+                    timeout = null
+                    func.apply(ctx, args)
+                }, wait)
+            }
+        }
+    } 
+ }
+   /**
+  * ---------------------------------------
+  *  节流 双剑合璧 搞不懂
+  * ------------------------------------- 
+  */
+
+  {
+      function throttle(func, wait) {
+          let timeout
+          let ctx
+          let args
+          let result
+          let previous = 0
+          let later = function() {
+              previous = +new Date()
+              timeout = null
+              func.apply(ctx, args)
+          }
+          let throttled = function() {
+              debugger
+              let now = +new Date()
+              let remaining = wait - (now - previous)
+              ctx = this
+              args = arguments
+              if(remaining <=0 || remaining > wait) {
+                  if(timeout) {
+                      clearTimeout(timeout)
+                      timeout = null
+                  }
+                  previous = now
+                  func.apply(ctx, args)
+              } else if (!timeout) {
+                  timeout = setTimeout(later, remaining)
+              }
+          }
+          return throttled
+      }
+
+        let count = 1
+        let container = document.getElementById('container')
+
+        function getUserAction(e) {
+            container.innerHTML = count++
+        }
+        container.addEventListener('mousemove',throttle(getUserAction,500))
+  }
+
+  
 
 
 
