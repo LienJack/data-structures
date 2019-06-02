@@ -10,7 +10,7 @@
 // require('../test/requireDemo')
 // require('../test/requrieDemo2')
 // require('../test/proxy')
-require('../test/index')
+// require('../test/index')
 
 // require('../vue/mvvm.js')
 // require('../utils/easy.demo.js')
@@ -25,3 +25,5 @@ require('../test/index')
 // require('../lesson/algorithms')
 // require('../touch/index')
 // require('../sort/index.js')
+
+require('../webRTC/index')

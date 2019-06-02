@@ -797,8 +797,105 @@ class MyPromise {
         function getUserAction(e) {
             container.innerHTML = count++
         }
-        container.addEventListener('mousemove',throttle(getUserAction,500))
+        // container.addEventListener('mousemove',throttle(getUserAction,500))
   }
+
+  /**
+   * ----------------------------
+   *  简单版 
+   * ------------------------------
+   */
+{ 
+  const PENDING = 'pending'
+  const FULFILLED = 'fulfilled'
+  const REJECTED = 'rejected'
+  function MyPromise(exector) {
+    let self = this // 缓存当前实例
+    self.status = PEDING // 设置状态
+    self.onResolvedCallbacks = [] // 成功的回调
+    self.onRejectedCallbacks = [] // 失败的回调
+
+    function  resolve(value) {
+      // 初始转成功
+      if (self.status == PENDING) {
+        self.status = FULFILLED
+        self.value = value
+        // 调用全部成功回调
+        self.onResolvedCallbacks.forEach(cd => cd(self.value))
+      }
+    }
+    function reject(reason) {
+      if (self.status == PENDING) {
+        self.status = REJECTED
+        self.value = reason
+        self.onRejectedCallbacks.forEach(cd => cd(self.value))
+      }
+    }
+    try {
+      exector(resolve, reject)
+    } catch(e) {
+      reject(e)
+    }
+  }
+}
+// onFulfilled 成功的值 如果then不传，那就传给下个
+MyPromise.prototype.then = function (onFulfilled, onRejected) {
+  let self = this
+  let promise2
+  onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : value => value
+  onRejected = typeof onRejected === 'function' ? onRejected : value => { throw reason }
+  if(self.status === FULFILLED) {
+    return promise2 = new MyPromise(function(resolve, reject) {
+      setTimeout(() => {
+        try {
+          let x = onFulfilled(self.value)
+          resolvePromise(promise2, x, resolve, reject)
+          
+        } catch (error) {
+          reject(error)
+        } 
+      });
+    })
+  }
+  if (self.status === REJECTED) {
+    return promise2 = new MyPromise(function (resolve, reject) {
+      setTimeout(() => {
+        try {
+          let x = onRejected(self.value)
+          resolvePromise(promise2, x, resolve, reject)
+        } catch (error) {
+          reject(error)
+        }
+      });
+    })
+  }
+  if (self.status === PENDING) {
+   
+    self.onResolvedCallbacks.push(function () {
+        try {
+          let x = onFulfilled(self.value)
+          resolvePromise(promise2, x, resolve, reject)
+        } catch (error) {
+          reject(error)
+        }
+      });
+    self.onRejectedCallbacks.push(
+      function () {
+        setTimeout(() => {
+          try {
+            let x = onRejected(self.value)
+            resolvePromise(promise2, x, resolve, reject)
+          } catch (error) {
+            reject(error)
+          }
+        })
+      }
+    )
+  }
+
+}
+
+
 
   
 
