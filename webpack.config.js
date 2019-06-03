@@ -5,7 +5,7 @@ const HappyPack = require('happypack');
 const os = require('os');
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
 
-module.exports =  {
+module.exports = {
   mode: 'development',
   entry: './src/index.js',
   output: {
@@ -27,16 +27,16 @@ module.exports =  {
     }),
     new HappyPack({
       //用id来标识 happypack处理那里类文件
-    id: 'happyBabel',
-    //如何处理  用法和loader 的配置一样
-    loaders: [{
-      loader: 'babel-loader?cacheDirectory=true',
-    }],
-    //共享进程池
-    threadPool: happyThreadPool,
-    //允许 HappyPack 输出日志
-    verbose: true,
-  })
+      id: 'happyBabel',
+      //如何处理  用法和loader 的配置一样
+      loaders: [{
+        loader: 'babel-loader?cacheDirectory=true',
+      }],
+      //共享进程池
+      threadPool: happyThreadPool,
+      //允许 HappyPack 输出日志
+      verbose: true,
+    })
   ],
   devServer: {
     contentBase: path.join(__dirname, './dist'), // 更目录

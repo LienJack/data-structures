@@ -1,1 +1,29 @@
-require('../lesson2')
+// require('../offer/1-5.js')
+// require('../offer/6-10.js')
+// require('../offer/11-15.js')
+// require('../offer/16-20.js')
+// require('../offer/21-25.js')
+// require('../offer/26-30.js')
+// require('../lesson/BinarySearchTree.js')
+
+// require('../FP/lesson3')
+// require('../test/requireDemo')
+// require('../test/requrieDemo2')
+// require('../test/proxy')
+// require('../test/index')
+
+// require('../vue/mvvm.js')
+// require('../utils/easy.demo.js')
+// require('../utils/easy2.js')
+// require('../utils/easy.js')
+// require('../utils/extend.js')
+// require('../zepto/fn.js')
+
+// require('../frame/isScroll.demo.js')
+// require('../frame/isScroll.js')
+
+// require('../lesson/algorithms')
+// require('../touch/index')
+// require('../sort/index.js')
+
+require('../webRTC/index')
