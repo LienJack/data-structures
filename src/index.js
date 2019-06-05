@@ -27,5 +27,4 @@
 // require('../sort/index.js')
 
 // require('../webRTC/index')
-
-import '../leetcode/array'
+import ('../leetcode/str.js')
