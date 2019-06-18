@@ -27,4 +27,4 @@
 // require('../sort/index.js')
 
 // require('../webRTC/index')
-import ('../leetcode/str.js')
+import ('../leetcode/index.js')
