@@ -171,3 +171,71 @@ var maxProfit = function (prices) {
   }
   return count 
 };
+
+
+var lemonadeChange = function(bills) {
+    let hand = [] // 存储零钱
+    // 是否顾客还在
+    while (bills.length)  {
+      let money = bills.shift ()
+      if (money === 5) {
+        hand.push(money)
+      } else {
+        // 取最大值
+        hand.sort((a,b) => b-a)
+        // 减去顾客饮料的钱就是需要找给顾客的零钱
+        let change = money - 5
+        for (let i = 0, len = hand.length; i < len; i++) {
+          if(hand[i] <= change) {
+            change -= hand[i]
+            hand.splice(i, 1)
+            i -- // 删除元素数组发生变化，要维持刚才的
+          }
+          if (change === 0) {
+            break;
+          }
+        }
+        if (change !==0) {
+          return false
+        } else {
+          hand.push(money)
+        }
+      }
+    }
+    return true
+};
+
+var uniquePathsWithObstacles = function(obstacleGrid) {
+    let func = (arr, m, n) => {
+      let dp = (m, n) => {
+        if (m === 2 && n === 2) {
+          if (arr[1][1] === 1 || arr[1][0] + arr[0][1] === 2) {
+            return 0
+          } else if (arr[1][0] === 1 || arr[0][1] ===1) {
+            return 1
+          } else {
+            return 2
+          }
+        } else if (m < 2 || n <2) {
+          // 单行
+          if (m < 2) {
+            return arr[m-1].includes(1) ? 0 : 1
+          // 单列，，没有障碍物返回0，没有返回1
+          } else {
+            for (let i = 0; i < m; i++) {
+              if (arr[i][0] === 1) {
+                return 0
+              }
+            }
+          } 
+          return 1
+        } else {
+          return dp(m-1,n) + dp(m,n-1)
+        }
+      }
+      return dp(m,n)
+    }
+    return func(obstacleGrid, obstacleGrid.length, obstacleGrid[0].length)
+};
+
+console.log(uniquePathsWithObstacles([[0,0,0],[0,1,0],[0,0,0]]))
