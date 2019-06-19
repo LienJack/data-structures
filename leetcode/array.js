@@ -122,6 +122,7 @@ class Heap {
         Heap.swap(iArr, 0, n-1-j)
         Heap.maxHeapify(iArr,0, n - 1 - j)
       }
+      return iArr
     }
   }
   // 交换两个元素
