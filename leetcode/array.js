@@ -238,4 +238,81 @@ var uniquePathsWithObstacles = function(obstacleGrid) {
     return func(obstacleGrid, obstacleGrid.length, obstacleGrid[0].length)
 };
 
-console.log(uniquePathsWithObstacles([[0,0,0],[0,1,0],[0,0,0]]))
+// console.log(uniquePathsWithObstacles([[0,0,0],[0,1,0],[0,0,0]]))
+
+
+var isValid = function(s) {
+  let stach = []
+  let map = { '{':'}', "[": "]","(":")" }  
+  let arr = s.split("")
+  for(let i = 0; i < arr.length; i++) {
+    if(arr[i] in map) {
+      stach.push(arr[i])
+    } else {
+      let tmp = stach.pop()
+      if (map[tmp]!==arr[i]) return false 
+    }
+  } 
+  if (!stach.length) {
+    return true
+  } else {
+    return false
+  }
+};
+
+// console.log(isValid("(]"))
+
+// console.log('111')
+
+var MyQueue = function() {
+  this.input = []
+  this.output = []
+};
+
+/**
+* Push element x to the back of queue. 
+* @param {number} x
+* @return {void}
+*/
+MyQueue.prototype.push = function(x) {
+   this.input.push(x)
+};
+
+/**
+* Removes the element from in front of queue and returns that element.
+* @return {number}
+*/
+MyQueue.prototype.pop = function() {
+  while (this.input.length !== 0) {
+    this.output.push(this.input.pop())
+  }
+  let tmp = this.output.pop()
+  while (this.output.length !== 0) {
+    this.input.push(this.output.pop())
+  }
+  return tmp
+};
+
+/**
+* Get the front element.
+* @return {number}
+*/
+MyQueue.prototype.peek = function() {
+   while (this.input.length !== 0) {
+     this.output.push(this.input.pop())
+   }
+   let tmp = this.output.pop()
+   this.input.push(tmp)
+   while (this.output.length !== 0) {
+     this.input.push(this.output.pop())
+   }
+   return tmp
+};
+
+/**
+* Returns whether the queue is empty.
+* @return {boolean}
+*/
+MyQueue.prototype.empty = function() {
+   return this.input.length === 0 ? true : false
+};

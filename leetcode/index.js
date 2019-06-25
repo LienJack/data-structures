@@ -1,1 +1,1 @@
-import './array'
+require("./array")
