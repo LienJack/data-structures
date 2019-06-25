@@ -316,3 +316,40 @@ MyQueue.prototype.peek = function() {
 MyQueue.prototype.empty = function() {
    return this.input.length === 0 ? true : false
 };
+
+class MinHeap {
+  constructor() {
+    this.heap = []
+  }
+  peak () {
+    return this.heap[1]
+  }
+  len () {
+    return this.heap.length - 1
+  }
+  insert (num) {
+    const heap = this.heap
+    heap.push(num)
+    const heapLength = heap.length
+    if (heapLength <= 2) {
+      return
+    }
+    let id = heapLength - 1
+    let parentId = Math.floor(id / 2)
+    while (parentId >= 1 && heap[id] < heap[parentId]) {
+      [heap[id], heap[parentId]] = [heap[parentId], heap[id]]
+      id = parentId
+      parentId = Math.floor(id / 2)
+    }
+  }
+
+  remove () {
+    const heap = this.heap
+    if (heap.length <= 1) {
+      return
+    }
+    if (heap.length <= 2) {
+      return heap.pop()
+    }
+  }
+}
