@@ -351,5 +351,17 @@ class MinHeap {
     if (heap.length <= 2) {
       return heap.pop()
     }
+    const last = heap.pop()
+    let i = 1
+    const smallest = heap[i]
+    heap[i] = last
+    let leftId = i * 2
+    let rightId = i * 2 + 1
+    while ((heap[leftId] !== undefined && heap[i] > heap[leftId]) || (heap[rightId] !== undefined && heap[i] > heap[rightId])) {
+      if (heap[rightId] !== undefined && heap[rightId] < heap[leftId]) {
+        [heap[i],heap[rightId]] = [heap[rightId], heap[i]]
+        i = rightId
+      }
+    }
   }
 }
