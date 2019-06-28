@@ -433,3 +433,51 @@ KthLargest.prototype.add = function (val) {
   return this.heap.peak();
 };
 
+class DoubleQueue {
+  constructor () {
+    this.queue = []
+  }
+  getLeft () {
+    return this.queue[0]
+  }
+  getRight () {
+    return this.queue[this.queue.length - 1]
+  }
+  removeLeft () {
+    this.queue.shift()
+  }
+  removeRight () {
+    this.queue.pop()
+  }
+  addLeft (n) {
+    this.queue.unshift(n)
+  }
+  addRight (n) {
+    this.queue.push(n)
+  }
+  length () {
+    return this.queue.length
+  }
+}
+var maxSlidingWindow = function(nums, k) {
+  const w = new DoubleQueue()
+  let m = []
+  for (let i = 0; i < nums.length; i ++) {
+    while (w.length() > 0 && w.getLeft() < i - k + 1) {
+      w.removeLeft()
+    }
+    while (w.length() > 0 && nums[w.getRight()] < nums[i]) {
+      w.removeRight()
+    }
+    // debugger
+    w.addRight(i)
+    if (i >= k-1) {
+      m.push(nums[w.getLeft()])
+    }
+    console.log('queue',i,w.queue)
+    console.log('m',i,m)
+  }
+  return m
+};
+
+console.log(maxSlidingWindow([1,3,1,2,0,5],3))
