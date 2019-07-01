@@ -474,10 +474,14 @@ var maxSlidingWindow = function(nums, k) {
     if (i >= k-1) {
       m.push(nums[w.getLeft()])
     }
-    console.log('queue',i,w.queue)
-    console.log('m',i,m)
   }
   return m
 };
 
-console.log(maxSlidingWindow([1,3,1,2,0,5],3))
+// console.log(maxSlidingWindow([1,3,1,2,0,5],3))
+let a = "123242"
+let b = "12Df"
+let c = 1234
+// console.log(a * 1)
+// console.log(/^[0-9]$/.test(a * 1))
+console.log(/^[0-9]*$/.test(a))
