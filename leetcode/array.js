@@ -484,4 +484,77 @@ let b = "12Df"
 let c = 1234
 // console.log(a * 1)
 // console.log(/^[0-9]$/.test(a * 1))
-console.log(/^[0-9]*$/.test(a))
+// console.log(/^[0-9]*$/.test(a))
+
+const biaryFindFirst  = (arr, target) => {
+  if (arr.length === 0) return -1
+  let low = 0
+  let height = arr.length - 1
+  while (low <= height) {
+    const mid = Math.floor((low + height) / 2)
+    if (target < arr[mid]) {
+      height = mid - 1
+    } else if (target > arr[mid]) {
+      low = mid + 1
+    } else {
+      if (mid === 0 || arr[mid - 1] < target) return mid
+      height = mid - 1
+    }
+  }
+  return -1
+}
+// console.log(biaryFindFirst([1,2,4,5,6,8,8,8,11,18],8))
+
+const biaryFindLast  = (arr, target) => {
+  if (arr.length === 0) return -1
+  let low = 0
+  let height = arr.length - 1
+  while (low <= height) {
+    const mid = Math.floor((low + height) / 2)
+    if (target < arr[mid]) {
+      height = mid - 1
+    } else if (target > arr[mid]) {
+      low = mid + 1
+    } else {
+      if (mid === arr.length - 1|| arr[mid+1] > target) return mid
+      low = mid + 1
+    }
+  }
+  return -1
+}
+// 查找第一个大于等于给定值的元素
+const biaryFindFistBig = (sortedArr, target) => {
+  if (sortedArr.length === 0) return -1
+  let low = 0
+  let high = sortedArr.length - 1
+  while (low <= high) {
+      const mid = Math.floor((low + high) / 2)
+      if (target <= sortedArr[mid]) {
+          if (mid === 0 || sortedArr[mid - 1] < target) return mid
+          high = mid - 1
+      } else {
+          low = mid + 1
+      }
+  }
+  return -1
+}
+
+// 查找最后一个小于等于给定值的元素
+const biaryFindLastSmall = (sortedArr, target) => {
+  if (sortedArr.length === 0) return -1
+  let low = 0
+  let high = sortedArr.length - 1
+  while (low <= high) {
+      const mid = Math.floor((low + high) / 2)
+      if (target < sortedArr[mid]) {
+        high = mid - 1
+      } else {
+          if (mid === sortedArr.length - 1 || sortedArr[mid + 1] >= target) return mid
+          low = mid + 1
+      }
+  }
+  return -1
+}
+
+console.log(biaryFindLastSmall([2,4,6],5))
+
