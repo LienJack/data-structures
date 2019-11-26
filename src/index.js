@@ -1,13 +1,16 @@
 import stop from './util'
-function FirstNotRepeatingChar (str) {
-  let arr = str.split("")
-  for (let i = 0; i < arr.length; i++) {
-    if(arr.indexOf(arr[i]) !== arr.lastIndexOf(arr[i])) {
-      return i
-    }
-  }
-   return false 
-}
+import { LinkedNode, LinkedList } from '../collection'
 
-const str = "qwertyuiopsdfghjklzxcvbnmwer"
-console.log(FirstNotRepeatingChar(str))
+function reverseList (head) {
+  let cur = null
+  let pre = head
+  let next = null
+  while (pre.next) {
+    cur = pre.next
+    next = cur.next
+    pre.next = 
+  }
+}
+// stop()
+const linked = new LinkedList([1,2,1,4,5,5,3,3,6,3])
+console.log(reverseList (linked))
