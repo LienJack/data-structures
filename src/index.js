@@ -1,16 +1,28 @@
 import stop from './util'
 import { LinkedNode, LinkedList } from '../collection'
 
-function reverseList (head) {
-  let cur = null
-  let pre = head
-  let next = null
-  while (pre.next) {
-    cur = pre.next
-    next = cur.next
-    pre.next = 
+var copyRandomList = function(head) {
+  if (!head) return null
+  let cur = head
+  let cloneHead = new Node
+  let tmp = cloneHead
+  let map = new Map()
+
+  while(cur) {
+    tmp.val = cur.val
+    tmp.next = cur.next ? new Node : null
+    map.set(cur, tmp)
+    tmp = tmp.next
+    cur = cur.next
   }
-}
-// stop()
-const linked = new LinkedList([1,2,1,4,5,5,3,3,6,3])
-console.log(reverseList (linked))
+  tmp = cloneHead
+  while (head) {
+    tmp.random = head.random ? map.get(head.random): null
+    head = head.next
+    tmp = tmp.next
+  }
+  return cloneHead
+};
+
+
+
