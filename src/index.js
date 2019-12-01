@@ -1,21 +1,28 @@
 import stop from './util'
-function trap (height) {
-  let res = 0
-  let letfMax = []
-  let rightMax = []
-  for (let i =1; i < height.length - 1; i++) {
-    letfMax[i] = Math.max(letfMax[i -1], height[])
-  }
-  for (let i=1; i < height.length - 1; i++) {
-    letfMax = Math.max(...height.slice(0,i))
-    rightMax = Math.max(...height.slice(i))
-    debugger
-    if (Math.min(letfMax, rightMax) - height[i]>0) {
-      res += Math.min(letfMax, rightMax) - height[i]
-    }
-  }
-  return res
-}
+import { LinkedNode, LinkedList } from '../collection'
 
-const height = [2, 0, 2]
-console.log(trap(height,3))
+var copyRandomList = function(head) {
+  if (!head) return null
+  let cur = head
+  let cloneHead = new Node
+  let tmp = cloneHead
+  let map = new Map()
+
+  while(cur) {
+    tmp.val = cur.val
+    tmp.next = cur.next ? new Node : null
+    map.set(cur, tmp)
+    tmp = tmp.next
+    cur = cur.next
+  }
+  tmp = cloneHead
+  while (head) {
+    tmp.random = head.random ? map.get(head.random): null
+    head = head.next
+    tmp = tmp.next
+  }
+  return cloneHead
+};
+
+
+
