@@ -1,31 +1,42 @@
-import { BinarySearchTree } from '../collection/Tree'
-let tree = new BinarySearchTree([1,2,3,4,5,6,7])
-// console.log(tree)
-// 中序遍历
-function inorderTraversal(root, arr = []) {
-  // debugger
-  if (root) {
-    inorderTraversal(root.left, arr)
-    arr.push(root.value)
-    inorderTraversal(root.right, arr)
-  }
-  return arr
-}
+import { MinHeap, MaxHeap } from '../collection/Heap'
 
-function inorderTraversalV2(root) {
-  let stack = []
-  let res = []
-  let cur = root
-  while (cur || stack.length > 0) {
-    while (cur) {
-      stack.push(cur)
-      cur = cur.left
+
+
+var MedianFinder = function() {
+     this.minHeap = new MinHeap()
+     this.maxHeap = new MaxHeap()
+     this.count = 0
+    
+};
+
+/** 
+ * @param {number} num
+ * @return {void}
+ */
+MedianFinder.prototype.addNum = function(num) {
+    if (this.count % 2 === 0) {
+      this.minHeap.insert(num)
+      this.maxHeap.insert(this.minHeap.remove())
+    } else {
+      this.maxHeap.insert(num)
+      this.minHeap.insert(this.maxHeap.remove())
     }
-    cur = stack.pop()
-    res.push(cur.value)
-    cur = cur.right
-  } 
-  return res
-}
+    this.count ++
+};
 
-console.log(inorderTraversalV2(tree.root, []))
+/**
+ * @return {number}
+ */
+MedianFinder.prototype.findMedian = function() {
+    if (this.count % 2 === 1) {
+      return this.maxHeap.peak()
+    } else {
+      return (this.minHeap.peak() + this.maxHeap.peak()) /2
+    }
+};
+
+let med = new MedianFinder()
+med.addNum(1)
+med.addNum(2)
+med.addNum(3)
+console.log(med.findMedian())
