@@ -1,42 +1,28 @@
-import { MinHeap, MaxHeap } from '../collection/Heap'
-
-
-
-var MedianFinder = function() {
-     this.minHeap = new MinHeap()
-     this.maxHeap = new MaxHeap()
-     this.count = 0
-    
-};
-
-/** 
- * @param {number} num
- * @return {void}
- */
-MedianFinder.prototype.addNum = function(num) {
-    if (this.count % 2 === 0) {
-      this.minHeap.insert(num)
-      this.maxHeap.insert(this.minHeap.remove())
+function mergeSort (arr) {
+ if (arr.length < 2) {
+   return arr
+ }
+ const mid = Math.floor(arr.length/2) 
+ const left = arr.slice(0, mid)
+ const right = arr.slice(mid)
+ return merge(mergeSort(left), mergeSort(right))
+}
+function merge(left, right) {
+  let temp = []
+  while(left.length && right.length) {
+    if (left[0] < right[0]) {
+      temp.push(left.shift())
     } else {
-      this.maxHeap.insert(num)
-      this.minHeap.insert(this.maxHeap.remove())
+      temp.push(right.shift())
     }
-    this.count ++
-};
-
-/**
- * @return {number}
- */
-MedianFinder.prototype.findMedian = function() {
-    if (this.count % 2 === 1) {
-      return this.maxHeap.peak()
-    } else {
-      return (this.minHeap.peak() + this.maxHeap.peak()) /2
-    }
-};
-
-let med = new MedianFinder()
-med.addNum(1)
-med.addNum(2)
-med.addNum(3)
-console.log(med.findMedian())
+  }
+  while (left.length) {
+    temp.push(left.pop())
+  }
+  while (right.length) {
+    temp.push(right.pop())
+  }
+  return temp
+}
+let arr = [234,2345,214,124,14,24,2,455,2,45]
+console.log(mergeSort(arr))
