@@ -1,28 +1,15 @@
-function mergeSort (arr) {
- if (arr.length < 2) {
-   return arr
- }
- const mid = Math.floor(arr.length/2) 
- const left = arr.slice(0, mid)
- const right = arr.slice(mid)
- return merge(mergeSort(left), mergeSort(right))
-}
-function merge(left, right) {
-  let temp = []
-  while(left.length && right.length) {
-    if (left[0] < right[0]) {
-      temp.push(left.shift())
-    } else {
-      temp.push(right.shift())
+var findMin = function(nums) {
+    let high = nums.length-1;
+    let low = 0
+    while (low < high) {
+      let mid = Math.floor((mid + high)/2)
+      if (nums[mid] > nums[high]) {
+        low = mid
+      } else if (nums[mid] < nums[high]) {
+        high = mid
+      } else {
+        high = high + 1
+      }
     }
-  }
-  while (left.length) {
-    temp.push(left.pop())
-  }
-  while (right.length) {
-    temp.push(right.pop())
-  }
-  return temp
-}
-let arr = [234,2345,214,124,14,24,2,455,2,45]
-console.log(mergeSort(arr))
+    return arr[low]
+};
