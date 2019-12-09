@@ -1,15 +1,20 @@
-var findMin = function(nums) {
-    let high = nums.length-1;
-    let low = 0
-    while (low < high) {
-      let mid = Math.floor((mid + high)/2)
-      if (nums[mid] > nums[high]) {
-        low = mid
-      } else if (nums[mid] < nums[high]) {
-        high = mid
-      } else {
-        high = high + 1
+var minimumTotal = function(triangle) {
+    let mini = []
+    mini[triangle.length - 1] = triangle[triangle.length - 1]
+    for (let i = triangle.length -2; i >=0; --i) {
+      if (!mini[i]) {
+        mini[i] = []
+      }
+      for(let j = 0; j < triangle[i].length; j++) {
+        mini[i][j] = triangle[i][j] + Math.min(mini[i+1][j], mini[i+1][j+1])
       }
     }
-    return arr[low]
+    return mini[0][0] 
 };
+const arr = [
+  [2],
+ [3,4],
+[6,5,7],
+[4,1,8,3]
+]
+console.log(minimumTotal(arr))
