@@ -1,20 +1,17 @@
-var minimumTotal = function(triangle) {
-    let mini = []
-    mini[triangle.length - 1] = triangle[triangle.length - 1]
-    for (let i = triangle.length -2; i >=0; --i) {
-      if (!mini[i]) {
-        mini[i] = []
+const nums = [10,9,2,5,3,7,101,18]
+var lengthOfLIS = function(nums) {
+    if(!nums.length) return 0
+    let dep = []
+    dep[0] = 1
+    for(let i = 1; i < nums.length; i++) {
+      let maxDep = 0
+      for(let j=0; j < i; j++) {
+        if (nums[j] < nums[i]) {
+          maxDep = Math.max(maxDep, dep[j])
+        }
       }
-      for(let j = 0; j < triangle[i].length; j++) {
-        mini[i][j] = triangle[i][j] + Math.min(mini[i+1][j], mini[i+1][j+1])
-      }
+      dep[i] = ++maxDep
     }
-    return mini[0][0] 
+    return Math.max(...dep)
 };
-const arr = [
-  [2],
- [3,4],
-[6,5,7],
-[4,1,8,3]
-]
-console.log(minimumTotal(arr))
+console.log(lengthOfLIS(nums))
