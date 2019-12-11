@@ -1,17 +1,15 @@
-const nums = [10,9,2,5,3,7,101,18]
-var lengthOfLIS = function(nums) {
-    if(!nums.length) return 0
-    let dep = []
-    dep[0] = 1
-    for(let i = 1; i < nums.length; i++) {
-      let maxDep = 0
-      for(let j=0; j < i; j++) {
-        if (nums[j] < nums[i]) {
-          maxDep = Math.max(maxDep, dep[j])
-        }
+const coins = [1, 2, 5]
+var coinChange = function (coins, amount) {
+  if (amount < 1) return 0;
+  var dp = new Array(amount + 1).fill(amount + 1);
+  dp[0] = 0;
+  for (var i = 0; i <= amount; i++) {
+    for (var r = 0; r < coins.length; r++) {
+      if (coins[r] <= i) {
+        dp[i] = Math.min(dp[i], dp[i - coins[r]] + 1);
       }
-      dep[i] = ++maxDep
     }
-    return Math.max(...dep)
+  }
+  return dp[amount] > amount ? -1 : dp[amount];
 };
-console.log(lengthOfLIS(nums))
+console.log(coinChange(coins,11))
