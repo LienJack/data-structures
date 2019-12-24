@@ -1,26 +1,35 @@
-var maximumSwap = function(num) {
-    const arr = getArr(num)
-    for (let i = 0; i < arr.length; i++) {
-    let max = i
-      for (let j = arr.length -1; j > i; j--) {
-          if (arr[max] < arr[j]) {
-              max = j
-          }
-      }
-      if (max !==i) {
-          [arr[max],arr[i]] = [arr[i],arr[max]]
-          break;
-      }
-    }
-    return  +arr.join("")
-};
-var getArr = function (num) {
-    let arr = []
-    while (num > 0) {
-        let temp = num%10
-        num = Math.floor(num/10)
-        arr.push(temp)
-    }
-    arr.reverse()
-    return arr
+function ListNode(val) {
+    this.val = val;
+    this.next = null;
 }
+let l1head = new ListNode(5)
+// let l1 = l1head.next = new ListNode(4)
+// l1 = l1.next = new ListNode(3)
+let l2head = new ListNode(5)
+// let l2 = l2head.next = new ListNode(6)
+// l2 = l2.next = new ListNode(8)
+var addTwoNumbers = function(l1, l2) {
+    let extend = 0
+    let res = new ListNode(null)
+    let head = res
+    // debugger
+    while (l1!=null||l2!=null) {
+        let l1Val
+        let l2Val
+        l1 ? l1Val = l1.val : l1Val = 0
+        l2 ? l2Val = l2.val : l2Val = 0
+        let sum =l1Val + l2Val + extend
+        extend = Math.floor(sum / 10)
+        let val = sum % 10
+        res.next = new ListNode(val)
+        res = res.next
+        if(l1) l1 = l1.next
+        if(l2) l2 = l2.next
+    }
+    if (extend) {
+        res.next = new ListNode(extend)
+    }
+    return head.next
+}
+
+console.log(addTwoNumbers(l1head, l2head))
