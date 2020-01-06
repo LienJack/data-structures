@@ -1,16 +1,28 @@
-function throttle (fn,time) {
-    let pre = 0
-    return function (...args) {
-        let now = new Date()
-        if (now - pre > time) {
-            pre = now
-            fn.apply(null,args)
-        }
+import { LinkedList } from '../collection'
+import stop  from './util'
+let p = new LinkedList([1,2,3,4,5,6,7,8])
+let head = p.head.next
+var reverseKGroup = function(head, k) {
+    let len = 0
+    let temp = head
+    while (len < k) {
+        if (temp === null) return head
+        temp = temp.next
+        len += 1
     }
+    let pre = reverseKGroup(temp, k)
+    let cur = head
+    while (len > 0) {
+        const next = cur.next
+        cur.next = pre
+        pre = cur
+        cur = next
+        len -= 1
+    }
+    return pre
 }
 
-const handleResize = throttle((e) => {
-    console.log(e)
-  },1000)
-  window.addEventListener('mousemove',handleResize)
-  
+
+reverseKGroup(head,2)
+
+stop()
