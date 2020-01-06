@@ -1,13 +1,14 @@
-import stop from './util'
-function FirstNotRepeatingChar (str) {
-  let arr = str.split("")
-  for (let i = 0; i < arr.length; i++) {
-    if(arr.indexOf(arr[i]) !== arr.lastIndexOf(arr[i])) {
-      return i
-    }
+function maxSlidingWindow  (nums ,k) {
+  // console.log(nums)
+  let temp = []
+  let res = []
+  for(let i = 0; i < nums.length; i++) {
+    // debugger
+    
   }
-   return false 
+  return res
 }
 
-const str = "qwertyuiopsdfghjklzxcvbnmwer"
-console.log(FirstNotRepeatingChar(str))
+const nums = [1,3,-1,-3,5,3,6,7]
+
+console.log(maxSlidingWindow(nums, 3))
