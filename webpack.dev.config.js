@@ -13,11 +13,13 @@ module.exports =  {
       loader: 'babel-loader'
     }]
   },
+  devtool: 'source-map',
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html'
     })
   ],
+  devtool:'source-map',
   devServer: {
     contentBase: path.join(__dirname, './dist'), // 更目录
     open: true,

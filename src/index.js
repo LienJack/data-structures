@@ -1,14 +1,16 @@
-function maxSlidingWindow  (nums ,k) {
-  // console.log(nums)
-  let temp = []
-  let res = []
-  for(let i = 0; i < nums.length; i++) {
-    // debugger
-    
-  }
-  return res
+function throttle (fn,time) {
+    let pre = 0
+    return function (...args) {
+        let now = new Date()
+        if (now - pre > time) {
+            pre = now
+            fn.apply(null,args)
+        }
+    }
 }
 
-const nums = [1,3,-1,-3,5,3,6,7]
-
-console.log(maxSlidingWindow(nums, 3))
+const handleResize = throttle((e) => {
+    console.log(e)
+  },1000)
+  window.addEventListener('mousemove',handleResize)
+  
