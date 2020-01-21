@@ -1,15 +1,14 @@
-const coins = [1, 2, 5]
-var coinChange = function (coins, amount) {
-  if (amount < 1) return 0;
-  var dp = new Array(amount + 1).fill(amount + 1);
-  dp[0] = 0;
-  for (var i = 0; i <= amount; i++) {
-    for (var r = 0; r < coins.length; r++) {
-      if (coins[r] <= i) {
-        dp[i] = Math.min(dp[i], dp[i - coins[r]] + 1);
-      }
-    }
+var maxArea = function (height) {
+  let max = 0
+  let i = 0
+  let j = height.length - 1
+  while (i < j) {
+    let minHeight = height[i] < height[j] ? height[i++] : height[j--]
+    let area = (j - i + 1) * minHeight
+    max = Math.max(max, area)
   }
-  return dp[amount] > amount ? -1 : dp[amount];
+  return max
 };
-console.log(coinChange(coins,11))
+const arr = [1, 1]
+
+console.log(maxArea(arr))
