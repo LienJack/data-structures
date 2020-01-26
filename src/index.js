@@ -1,20 +1,22 @@
-var generateParenthesis = function(n) {
+var levelOrder = function(root) {
+  if (!root) return []
+  let map = []
   let res = []
-  _generate(0, 0, n, '', res)
+  const DFS = (level, root, map) => {
+      if (!root) return null
+      map.push({level, val: root.val})
+      DFS(level+1,root.left,map)
+      DFS(level+1,root.right,map)
+  }
+  DFS(0, root, map)
+  map.forEach(item => {
+    let { level, val } = item
+    if (!res[level]) {
+      res[level] = [val]
+    } else {
+      res[level].push(val)
+    }
+  })
+  console.log(res)
   return res
 };
-var _generate = function (left,right, n, s, res) {
-  if (left === n && right === n) {
-    res.push(s)
-    return 
-  }
-  if (left < n) {
-    _generate(left+1, right, n, s+"(", res)
-  }
-  // 有左括号并且个数并且右括号 < 左括号
-  if (left > right) {
-    _generate(left, right + 1, n, s + ")", res)
-  }
-}
-
-console.log(generateParenthesis(2))
