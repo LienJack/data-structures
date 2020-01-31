@@ -1,6 +1,7 @@
 import { BinarySearchTree, TreeNode, BinaryTree } from './Tree'
 import { LinkedNode, LinkedList } from './LinkedList'
 import { MinHeap, MaxHeap } from './Heap'
+import { Trinode, Trie } from './Trie'
 export {
   LinkedNode,
   LinkedList,
@@ -8,5 +9,7 @@ export {
   BinaryTree,
   BinarySearchTree,
   MinHeap,
-  MaxHeap
+  MaxHeap,
+  Trinode,
+  Trie
 }
