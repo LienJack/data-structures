@@ -1,23 +1,24 @@
-var getPermutation = function(n, k) {
-    const orginList = Array.from(Array(n+1), (item,index) => index)
-    const factorial = (n) => {
-        let i = 1
-        let res = 1
-        while (i <= n) {
-            res *= i++
+var findCircleNum = function(M) {
+    if (!M.length) return 0
+    let len = M.length
+    let count = 0
+    let visited = {}
+    function DFS (i) {
+        for (let j = 0; j < len; j++) {
+            if (M[i][j] === 1 && !visited[j]) {
+                visited[j] = true
+                DFS(j)
+            }
         }
-        return res
     }
-    const DFS = (arr, n, k, res) => {
-        if (arr.length===1) return res
-        const factorialRes = factorial(n-1)
-        const index = Math.ceil(k / factorialRes)
-        const newKey = k % factorialRes === 0 ? factorialRes : k % factorialRes
-        res+=arr[index]
-        const newArr = [...arr.slice(0,index),...arr.slice(index+1)]
-        return DFS(newArr, --n, newKey, res)
+    for (let i = 0; i < len; i++) {
+        if (!visited[i]) {
+            DFS(i)
+            count ++
+        }
     }
-    return DFS (orginList, n, k, '')
+    return count
 };
-
-console.log(getPermutation(3,3))
+const nums = 
+[[1,0,0,1],[0,1,1,0],[0,1,1,1],[1,0,1,1]]
+console.log(findCircleNum(nums))
