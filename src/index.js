@@ -1,17 +1,14 @@
-Function.prototype.myCall = function (context = window, ...args) {
-    const fn = Symbol()
-    context[fn] = this
-    let result = context[fn](...args)
-    delete context[fn]
-    return result
+function randoSort (arr) {
+  let _arr = []
+  while (arr.length) {
+    let item = randomRange(0,arr.length-1)
+    _arr.push(arr[item])
+    arr.splice(item,1)
+  }
+  return _arr
 }
-
-let obj = {
-    a: 1,
-    b:1
+function randomRange(myMin, myMax) {
+  return Math.floor(Math.random()*(myMax - myMin + 1)) + myMin; 
 }
-
-function test (c,d) {
-    return `${this.a},${this.b},${c},${d}`
-}
-console.log(test.call(obj,3,4))
+let arr = Array.from(Array(10), (item, index) => index)
+console.log(randoSort(arr))
