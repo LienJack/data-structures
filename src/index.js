@@ -14,8 +14,10 @@ function maxSlidingWindow(arr, k) {
       res.push(Math.max(...window))
     }
   }
-  return res
+  return _arr
 }
-
-const nums = [1, 3, -1, -3, 5, 3, 6, 7]
-console.log(maxSlidingWindow(nums,3))
+function randomRange(myMin, myMax) {
+  return Math.floor(Math.random()*(myMax - myMin + 1)) + myMin; 
+}
+let arr = Array.from(Array(10), (item, index) => index)
+console.log(randoSort(arr))
