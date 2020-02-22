@@ -1,26 +1,21 @@
-var threeSum = function (nums) {
+function maxSlidingWindow(arr, k) {
   let res = []
-  nums = nums.sort((a, b) => a - b)
-  for (let i = 0; i < nums.length - 2; i++) {
-    if (i > 0 && nums[i] === nums[i-1]) continue // 这里疑惑
-    let j = i + 1
-    let k = nums.length - 1
-    while (j < k) {
-      let sum = nums[i] + nums[j] + nums[k] 
-      if (sum === 0) {
-        res.push([ nums[i], nums[j], nums[k] ])
-        while (j < k && nums[j] === nums[++j]);
-        while (j < k && nums[k] === nums[--k]);
-      } else if (sum < 0) {
-        while (j < k && nums[j] === nums[++j]);
-      } else {
-        while (j < k && nums[k] === nums[--k]);
+  let window = []
+  for (let i = 0; i < arr.length; i++) {
+    if (window.length < k) {
+      window.push(arr[i])
+      if (window.length === k) {
+        res.push(Math.max(...window))
       }
+    } else {
+      window.shift()
+      window.push(arr[i])
+      console.log([].concat(...window))
+      res.push(Math.max(...window))
     }
   }
   return res
 }
 
-const arr = [-1, 0, 1, 2, -1, -4]
-
-console.log(threeSum(arr))
+const nums = [1, 3, -1, -3, 5, 3, 6, 7]
+console.log(maxSlidingWindow(nums,3))
