@@ -46,3 +46,10 @@ Promise.reject = function(value) {
     reject(value)
   })
 }
+
+Promise.finally = function(fn) {
+  return this.then(value =>{
+    fn()
+    return value
+  })
+}
