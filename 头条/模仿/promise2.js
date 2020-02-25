@@ -38,16 +38,34 @@ class myPromise {
   then (onfulfilled, onrejected) {
     onfulfilled = typeof onfulfilled === 'function' ? onfulfilled : data => data
     onrejected = typeof onreject === 'function' ? onrejected : error => { throw error }
-    // debugger
+    let promsie2
     if (this.status === 'fulfilled') {
-      onfulfilled(this.value)
+      return promsie2 = new myPromise((resolve, reject) => {
+        setTimeout(() => {
+          let result = onfulfilled(this.value)
+          resolve(result)
+        })
+      })
     }
     if (this.status === 'rejected') {
-      onrejected(this.reason)
+      return promsie2 = new myPromise((resolve,reject) => {
+        let result = onrejected(this.reason)
+        reject(this.reason)
+      })
     }
     if (this.status === 'pending') {
-      this.onFulfilledFunc.push(onfulfilled)
-      this.onRejectedFunc.push(onrejected)
+      this.onFulfilledFunc.push(() => {
+        setTimeout(() => {
+          let result = onfulfilled(this.value)
+          reslove(result)
+        })
+      })
+      this.onRejectedFunc.push(() => {
+        setTimeout(() => {
+          let result = onrejected(this.value)
+          reject(result)
+        })
+      })
     }
   }
 }
