@@ -69,7 +69,3 @@ let p3 = () => {
 }
 
 
-limitP.call(p1).then(()=> console.log('1 end'))
-limitP.call(p2).then(()=> console.log('2 end'))
-limitP.call(p3).then(()=> console.log('3 end'))
-limitP.call(p4).then(()=> console.log('4 end'))
