@@ -1,15 +1,15 @@
-if (!nums.length) return 0
-let set = new Set(nums)
-let max = 1
-for (let i = 0; i < nums.length; i++) {
-  if (!set.has(nums[i] - 1)) {
-    let time = 0
-    let cur = nums[i]
-    while (set.has(cur)) {
-      time++
-      cur++
+var findLengthOfLCIS = function (nums) {
+  let len = 1
+  let res = 0
+  if (!nums.length) return 0
+  for (let i = 0; i < nums.length - 1; i++) {
+    if (nums[i] < nums[i + 1]) {
+      len++
+    } else {
+      res = Math.max(res, len)
+      len = 1
     }
-    max = Math.max(time, max)
   }
+  res = Math.max(res, len)
+  return res
 }
-return max
