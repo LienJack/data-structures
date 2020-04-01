@@ -1,31 +1,35 @@
-Function.prototype.myBind = function (context = window, ...args1) {
-  const _this = this
-  let fn = Symbol()
-  let newFn = function (...args2) {
-    let curContext
-    if (!new.target) {
-      curContext = context
-    } else {
-      curContext = this
-    }
-    curContext[fn] = _this
-    let res = curContext[fn](...args1, ...args2)
-    delete curContext[fn]
-    return res
+var checkInclusion = function (s1, s2) {
+  let need = {}
+  let win = {}
+  let match = 0
+  let needLen = 0
+  let left = 0
+  let right = 0
+  for (let i = 0; i < s1.length; i++) {
+    let item = s1[i]
+    need[item] ? need[item] ++ : need[item] = 1
   }
-  newFn.prototype = Object.create(_this.prototype)
-  return newFn
-}
-
-function Animal(name, color) {
-  this.name = name;
-  this.color = color;
-}
-Animal.prototype.say = function () {
-  return `I m a ${this.color} ${this.name}`;
+  needLen = Object.keys(need).length
+  // console.log(need)
+  while(right < s2.length) {
+    let rightStr = s2[right]
+    if (need[rightStr]) {
+      win[rightStr] ? win[rightStr]++ : win[rightStr] = 1
+      if (win[rightStr] === win[rightStr]) match++
+    }
+    right++
+    while (needLen === match) {
+      // debugger
+      let leftStr = s2[left]
+      if (right - left === s1.length) return true
+      if (need[leftStr]) {
+        win[leftStr] --
+        if (win[leftStr] < need[leftStr]) match--
+      }
+      left ++
+    }
+  }
+  return false
 };
-const Cat = Animal.myBind(null, 'cat');
-const cat = new Cat('white');
-if (cat.say() === 'I m a white cat' && cat instanceof Cat && cat instanceof Animal) {
-  console.log('success');
-}
+
+console.log(checkInclusion("ab", "eidboaoo"))
